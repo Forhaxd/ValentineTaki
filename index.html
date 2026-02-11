@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? Takiaaaa💕</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+            background: linear-gradient(45deg, #ff6b9d, #c44569, #f8b500, #ff9ff3);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 6s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        .container {
+            text-align: center;
+            z-index: 10;
+            position: relative;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: white;
+            text-shadow: 0 0 20px #ff69b4;
+            margin-bottom: 2em;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        .buttons {
+            display: flex;
+            gap: 2em;
+            justify-content: center;
+        }
+        button {
+            padding: 1em 2em;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        #yes {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+        }
+        #no {
+            background: linear-gradient(45deg, #ffcccb, #ffb6c1);
+            color: #333;
+            position: relative;
+        }
+        #no:hover {
+            animation: shake 0.5s infinite;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        .celebration {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: celebrate 1s ease-out;
+            text-align: center;
+            padding: 20px;
+        }
+        .message {
+            font-size: 2.5em;
+            color: #ff1493;
+            text-shadow: 0 0 30px #fff;
+            margin-bottom: 0.5em;
+        }
+        #lyrics-container {
+            position: fixed;
+            bottom: 30px;
+            width: 100%;
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            z-index: 100;
+            min-height: 1.5em;
+            transition: opacity 0.5s;
+        }
+        .cute-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 20px;
+            margin: 1em;
+            object-fit: cover;
+            box-shadow: 0 20px 40px rgba(255,20,147,0.5);
+            animation: glow 2s infinite alternate;
+        }
+        @keyframes glow {
+            from { box-shadow: 0 0 20px rgba(255,105,180,0.5); }
+            to { box-shadow: 0 0 40px rgba(255,20,147,0.8); }
+        }
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.9);
+            color: #ff69b4;
+            border: 2px solid #ff69b4;
+            padding: 0.5em 1em;
+            border-radius: 50px;
+            display: none;
+            z-index: 30;
+        }
+    </style>
+</head>
+<body>
+    <audio id="bgMusic" loop preload="auto">
+        <source src="raabta-piano.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="hearts" id="hearts"></div>
+    <button class="back-btn" id="backBtn">← Back</button>
+    
+    <div class="container" id="question">
+        <h1>Will you be my Valentine? Takiaaaa 💖</h1>
+        <div class="buttons">
+            <button id="yes">Yes 💕</button>
+            <button id="no">No 😏</button>
+        </div>
+    </div>
+       
+    <div class="celebration" id="celebration">
+        <h1 class="message">Yay! I knew you'd say YES! ❤️</h1>
+        <p style="color: white; margin-bottom: 1em;">You're the best thing that's ever happened to me, Takia. ~jdp</p>
+        
+        <img src="PXL_20260121_103413143.jpg" alt="Takia" class="cute-img">
+        
+        <div id="lyrics-container"></div>
+    </div>
+
+    <script>
+        const bgMusic = document.getElementById('bgMusic');
+        const lyricsContainer = document.getElementById('lyrics-container');
+        
+        const lyrics = [
+            "Takia, তুমি আমার জীবনের সবচেয়ে সুন্দর অনুভূতি 🌹",
+            "Every heartbeat chooses you 💕",
+            "তুমি আমার রাব্তা, আমার প্রেমের গান 🎶",
+            "Forever together, my love ❤️",
+            "Without you, I'm nothing 😘"
+        ];
+
+        let lyricIndex = 0;
+        let lyricInterval;
+
+        function startLyrics() {
+            lyricIndex = 0;
+            clearInterval(lyricInterval);
+            showNextLyric();
+            lyricInterval = setInterval(showNextLyric, 4000);
+        }
+
+        function showNextLyric() {
+            lyricsContainer.style.opacity = 0;
+            setTimeout(() => {
+                lyricsContainer.innerText = lyrics[lyricIndex];
+                lyricsContainer.style.opacity = 1;
+                lyricIndex = (lyricIndex + 1) % lyrics.length;
+            }, 500);
+        }
+
+        document.addEventListener('click', function() {
+            bgMusic.play().catch(e => console.log('Music will play on Yes button'));
+        }, { once: true });
+
+        const noBtn = document.getElementById('no');
+        noBtn.addEventListener('mouseenter', () => {
+            const x = Math.random() * (window.innerWidth - noBtn.offsetWidth);
+            const y = Math.random() * (window.innerHeight - noBtn.offsetHeight);
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = x + 'px';
+            noBtn.style.top = y + 'px';
+        });
+
+        document.getElementById('yes').addEventListener('click', () => {
+            document.getElementById('question').style.display = 'none';
+            document.getElementById('celebration').style.display = 'flex';
+            document.getElementById('backBtn').style.display = 'block';
+            bgMusic.play();
+            startLyrics();
+        });
+
+        document.getElementById('backBtn').addEventListener('click', () => {
+            location.reload(); 
+        });
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random()*3 + 3) + 's';
+            document.getElementById('hearts').appendChild(heart);
+            setTimeout(() => heart.remove(), 6000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+</body>
+</html>
